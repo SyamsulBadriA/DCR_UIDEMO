@@ -87,28 +87,62 @@
     });
 </script> -->
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Mengambil data pengguna dari localStorage
-    var userData = localStorage.getItem('user');
+ document.addEventListener('DOMContentLoaded', function () {
+  var userData = localStorage.getItem('user');
+  var user = JSON.parse(userData);
+  var signInButton = document.getElementById('signInButton');
+  var signText = document.getElementById('signText');
+  var signInIcon = document.getElementById('signInIcon');
+  var dropdownContent = document.getElementById('myDropdown');
+  var logoutLink = document.getElementById('logout');
+  var dashboardLink = document.getElementById('dashboard');
+  var registerButton = document.getElementById('registerButton');
 
-    // Mengonversi string JSON menjadi objek JavaScript
-    var user = JSON.parse(userData);
+  if (signInButton) {
     if (user && user.first_name) {
-        // Ganti teks "SIGN" dengan nama pertama pengguna
-        var signInButton = document.getElementById('signInButton');
-        if (signInButton) {
-            signInButton.querySelector('span').innerHTML = user.first_name;
+      signText.textContent = user.first_name;
+      signInIcon.style.display = 'none';
 
-            // Tambahkan event listener untuk menampilkan pilihan setelah tombol diklik
-            signInButton.addEventListener('click', function () {
-                // Hapus event listener setelah tombol diklik agar tidak tampil berulang kali
-                signInButton.removeEventListener('click', arguments.callee);
+      signInButton.addEventListener('click', function () {
+        dropdownContent.classList.toggle('show');
+      });
+    } else {
+      dropdownContent.style.display = 'none';
 
-                var dropdownContent = signInButton.querySelector('.dropdown-content');
-                dropdownContent.classList.toggle('show');
-            });
-        }
+      signInButton.addEventListener('click', function () {
+        window.location.href = 'login.html';
+      });
     }
+  } else {
+    console.error('Element with ID signInButton not found');
+  }
+
+  if (logoutLink) {
+    logoutLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      localStorage.removeItem('user');
+      window.location.href = 'index.html';
+    });
+  } else {
+    console.error('Element with ID logout not found');
+  }
+
+  if (dashboardLink) {
+    dashboardLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      window.location.href = 'dashboard.html';
+    });
+  } else {
+    console.error('Element with ID dashboard not found');
+  }
+
+  if (registerButton) {
+    if (userData) {
+      registerButton.href = 'registration.html';
+    }
+  } else {
+    console.error('Element with ID registerButton not found');
+  }
 });
 
 </script>
@@ -168,12 +202,12 @@
                   </div>
                 </nav>
                 <div class="u-align-center-xs u-btn u-btn-round u-button-style u-custom-color-3 u-hover-palette-4-base u-radius u-btn-1" id="signInButton">
-                  <span class="u-file-icon u-icon"><img src="../images/150005.png" alt=""></span>&nbsp;<span id="userName"></span>
+                  <span class="u-file-icon u-icon" id="signInIcon"><img src="../images/150005.png" alt=""></span>&nbsp; <span id="signText">SIGN</span>
                   <div class="dropdown-content" id="myDropdown">
-                      <a href="#">Dashboard</a>
-                      <a href="#" id="logout">Logout</a>
+                    <a href="#" id="dashboard">Dashboard</a>
+                    <a href="#" id="logout">Logout</a>
                   </div>
-              </div>
+                </div>
               
                             
             </div>
@@ -193,7 +227,7 @@
                   </p>
                   <img class="u-align-center-md u-align-center-sm u-align-center-xs u-image u-image-contain u-image-default u-image-3" src="../images/UTMBindexITRA2.png" alt="" data-image-width="903" data-image-height="128">
                 </div>
-                <a href="Registration.html" class="u-btn u-btn-round u-button-style u-custom-color-10 u-hover-custom-color-9 u-radius u-btn-1">REGISTER NOW </a>
+                <a href="Login.html" id="registerButton" class="u-btn u-btn-round u-button-style u-custom-color-10 u-hover-custom-color-9 u-radius u-btn-1">REGISTER NOW</a>
               </div>
             </div>
           </div>

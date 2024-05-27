@@ -26,6 +26,44 @@
 		"name": "UITR",
 		"logo": "../images/logouitr1.PNG"
 }</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      var userData = localStorage.getItem('user');
+      var user = JSON.parse(userData);
+      var signInButton = document.getElementById('signInButton');
+      var signText = document.getElementById('signText');
+      var signInIcon = document.getElementById('signInIcon');
+      var dropdownContent = document.getElementById('myDropdown');
+      var logoutLink = document.getElementById('logout');
+      var dashboardLink = document.getElementById('dashboard');
+  
+      if (user && user.first_name) {
+        signText.textContent = user.first_name;
+        signInIcon.style.display = 'none';
+  
+        signInButton.addEventListener('click', function () {
+          dropdownContent.classList.toggle('show');
+        });
+      } else {
+        dropdownContent.style.display = 'none';
+  
+        signInButton.addEventListener('click', function () {
+          window.location.href = 'Login.html';
+        });
+      }
+  
+      logoutLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        localStorage.removeItem('user');
+        window.location.href = 'index.html'; 
+      });
+  
+      dashboardLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        window.location.href = 'dashboard.html'; 
+      });
+    });
+  </script>
     <meta name="theme-color" content="#478ac9">
     <meta property="og:title" content="FUN TRAIL 5K">
     <meta property="og:description" content="detrac comunity trailrun">
@@ -80,8 +118,13 @@
                     <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
                   </div>
                 </nav>
-                <a href="#" class="u-align-center-xs u-btn u-btn-round u-button-style u-custom-color-3 u-hover-palette-4-base u-radius u-btn-1"><span class="u-file-icon u-icon"><img src="../images/150005.png" alt=""></span>&nbsp;SIGN
-                </a>
+                <div class="u-align-center-xs u-btn u-btn-round u-button-style u-custom-color-3 u-hover-palette-4-base u-radius u-btn-1" id="signInButton">
+                  <span class="u-file-icon u-icon" id="signInIcon"><img src="../images/150005.png" alt=""></span>&nbsp; <span id="signText">SIGN</span>
+                  <div class="dropdown-content" id="myDropdown">
+                    <a href="#">Dashboard</a>
+                    <a href="#" id="logout">Logout</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
